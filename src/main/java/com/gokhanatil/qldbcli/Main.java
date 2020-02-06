@@ -61,7 +61,7 @@ public class Main {
         QldbSession mySession = getQldbSession(myParameters.getLedgerName());
 
         if (myParameters.getRunQuery() != null) {
-            Executor.runQuery(mySession, myParameters.getRunQuery());
+            Executor.runQuery(mySession, myParameters.getRunQuery(), myParameters.getIonMode());
             System.exit(0);
         }
 
@@ -86,7 +86,7 @@ public class Main {
                 continue;
             }
 
-            if (!cmd.isEmpty()) Executor.runQuery(mySession, cmd);
+            if (!cmd.isEmpty()) Executor.runQuery(mySession, cmd, myParameters.getIonMode());
         }
     }
 

@@ -24,6 +24,7 @@ public class CLIParameters {
     private Integer bufferSize = 0;
     private String targetTable;
     private String runQuery;
+    private Boolean ionMode = false;
 
     CLIParameters(String[] args) throws ParseException {
 
@@ -36,6 +37,10 @@ public class CLIParameters {
         Option verboseMode = new Option("v", "verbose", false, Constants.ENABLE_VERBOSE_MODE);
         verboseMode.setRequired(false);
         options.addOption(verboseMode);
+
+        Option ion = new Option("i", "ion", false, Constants.ENABLE_ION_MODE);
+        ion.setRequired(false);
+        options.addOption(ion);
 
         Option queryRun = new Option("q", "query", true, Constants.RUN_A_QUERY_SILENTLY_AND_EXIT);
         queryRun.setRequired(false);
@@ -86,6 +91,7 @@ public class CLIParameters {
         if (cmdLine.hasOption("table")) setTargetTable( cmdLine.getParsedOptionValue("table").toString());
         if (cmdLine.hasOption("file")) setImportFile( cmdLine.getParsedOptionValue("file").toString());
         if (cmdLine.hasOption("buffer")) setBufferSize( Integer.valueOf( cmdLine.getParsedOptionValue("buffer").toString()));
+        if (cmdLine.hasOption("ion")) ionMode = true;
 
         BasicConfigurator.configure();
         if (cmdLine.hasOption("verbose")) Logger.getRootLogger().setLevel(Level.DEBUG);
@@ -134,4 +140,8 @@ public class CLIParameters {
     public void setLedgerName(String ledgerName) {
         this.ledgerName = ledgerName;
     }
+
+    public Boolean getIonMode() {
+        return ionMode;
+    }        
 }

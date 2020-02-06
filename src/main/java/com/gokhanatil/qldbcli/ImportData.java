@@ -46,7 +46,7 @@ public abstract class ImportData {
             bufferJSON.append(newJSON.toString().replaceAll(",$", "}"));
 
             if (bufferJSON.length() > params.getBufferSize() || ( ++numberOfDocs == 40 ) ) {
-                Executor.runQuery( mySession, Constants.INSERT_INTO + params.getTargetTable() + " <<" + bufferJSON + " >>");
+                Executor.runQuery( mySession, Constants.INSERT_INTO + params.getTargetTable() + " <<" + bufferJSON + " >>", false);
                 numberOfDocs = 0;
                 bufferJSON.delete(0, bufferJSON.length() );
             }
@@ -57,7 +57,7 @@ public abstract class ImportData {
 
         // flush the buffer
         if (bufferJSON.length() > 0 )
-            Executor.runQuery(mySession, Constants.INSERT_INTO + params.getTargetTable() + " <<" + bufferJSON + " >>");
+            Executor.runQuery(mySession, Constants.INSERT_INTO + params.getTargetTable() + " <<" + bufferJSON + " >>", false);
 
         return numberOfRecords;
 
