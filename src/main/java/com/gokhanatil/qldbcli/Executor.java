@@ -23,7 +23,7 @@ import java.util.List;
 
 public abstract class Executor {
 
-    public static void runQuery(QldbSession mySession, String cmd) {
+    public static void runQuery(QldbSession mySession, String cmd, Boolean ionMode) {
         List<IonStruct> documentList = new ArrayList<>();
 
         try {
@@ -40,22 +40,34 @@ public abstract class Executor {
                 } else
                     System.out.println(row);
             }
-            writeCSV(tableColumns);
 
-            for (IonStruct doc : documentList) {
-                StringBuilder outputLine = new StringBuilder();
-                for (String columnName : tableColumns) {
-                    if (doc.get(columnName) == null) {
-                        outputLine.append(Constants.DELIMITER);
-                    } else
-                        outputLine.append(doc.get(columnName) + Constants.DELIMITER);
+            if (! ionMode) {
+                writeCSV(tableColumns);
+
+                for (IonStruct doc : documentList) {
+                    StringBuilder outputLine = new StringBuilder();
+                    for (String columnName : tableColumns) {
+                        if (doc.get(columnName) == null) {
+                            outputLine.append(Constants.DELIMITER);
+                        } else
+                            outputLine.append(doc.get(columnName) + Constants.DELIMITER);
+                    }
+                    System.out.println(outputLine.toString().replaceAll(",$", ""));
                 }
-                System.out.println(outputLine.toString().replaceAll(",$", ""));
+            }
+            else {
+                for (IonStruct doc : documentList) {
+                    writeIon(doc);
+                }
             }
 
         } catch (Exception e) {
             System.out.println(Constants.ERROR + e.getMessage());
         }
+    }
+
+    private static void writeIon(IonStruct doc) {
+        System.out.println(doc.toPrettyString());
     }
 
     private static void writeCSV(List<String> tempList) {

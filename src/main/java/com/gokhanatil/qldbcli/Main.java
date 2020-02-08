@@ -61,7 +61,7 @@ public class Main {
         QldbSession mySession = getQldbSession(myParameters.getLedgerName());
 
         if (myParameters.getRunQuery() != null) {
-            Executor.runQuery(mySession, myParameters.getRunQuery());
+            Executor.runQuery(mySession, myParameters.getRunQuery(), myParameters.getIonMode());
             System.exit(0);
         }
 
@@ -71,9 +71,10 @@ public class Main {
 
 
         String cmd;
+        Boolean ionMode = myParameters.getIonMode();
 
         while (true) {
-
+            
             cmd = waitCommand();
 
             if (cmd.equalsIgnoreCase("QUIT")) {
@@ -83,12 +84,16 @@ public class Main {
             if (cmd.toUpperCase().contains("CONN ")) {
                 String newLedgerName = cmd.split("(?i)CONN ")[1];
                 mySession = getQldbSession(newLedgerName);
-                continue;
             }
-
-            if (!cmd.isEmpty()) Executor.runQuery(mySession, cmd);
+            else if (cmd.toUpperCase().equals("ION")) {
+                ionMode = true;
+                System.out.println("Okay, setting Ion mode");
+            }
+            else if (cmd.toUpperCase().equals("CSV")) {
+                ionMode = false;
+                System.out.println("Okay, setting CSV mode");
+            }
+            else if (!cmd.isEmpty()) Executor.runQuery(mySession, cmd, ionMode);
         }
     }
-
-
 }

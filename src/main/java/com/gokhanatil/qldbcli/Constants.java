@@ -19,6 +19,7 @@ public abstract class Constants {
     public static final String HELP_MESSAGE = "qldbcli -l ledgername [-q query] [-v] [-no] [-t tablename -f filename -b size ]";
     public static final String THE_LEDGER_NAME_TO_CONNECT = "the ledger name to connect";
     public static final String ENABLE_VERBOSE_MODE = "enable verbose mode";
+    public static final String ENABLE_ION_MODE = "enable Ion output mode";
     public static final String RUN_A_QUERY_SILENTLY_AND_EXIT = "run a query (silently) and exit";
     public static final String THE_TABLE_NAME_TO_IMPORT_DATA = "the table name to import data";
     public static final String THE_SOURCE_FILE_CSV_TO_IMPORT_DATA = "the source file (csv) to import data";
